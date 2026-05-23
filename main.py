@@ -1,4 +1,8 @@
 import openpyxl as xl
+#For  Charts
+from openpyxl.chart import BarChart, PieChart, Reference
+from openpyxl.chart.label import DataLabelList
+
 #To Load The .xlsx since it returs obj need to store
 wb = xl.load_workbook('student_expense.xlsx')
 #create a sheet
@@ -53,8 +57,50 @@ for cat , amt in category_total.items() :
    report_sheet.cell(row, 2).value = amt
    row += 1
 
+#creating pie chart
+pie = PieChart()
+#creating category data reference
+data = Reference(
+    report_sheet,
+    min_col=2,
+    min_row=5,
+    max_row=row-1
+)
+
+#category labels reference
+labels = Reference(
+    report_sheet,
+    min_col=1,
+    min_row=5,
+    max_row=row-1
+)
+
+#connecting the amount data to the pie chart
+pie.add_data(data)
+
+#attaching the category labels to the pie chart
+pie.set_categories(labels)
+
+#chart title
+pie.title = "Expense Distribution"
+
+#Placeing chart in worksheet
+report_sheet.add_chart(pie, "D2")
+
+
+#creating Bar Chart
+bar = BarChart()
+bar.add_data(data)
+bar.set_categories(labels)
+
+#Adding Titles
+bar.title = "Expense by Category"
+bar.x_axis.title = "Categories"
+bar.y_axis.title = "Amount"
+
+report_sheet.add_chart(bar, "D20")
+
 print("Sheet Is Created!")
 
 #save the file
 report_workbook.save("expense_report.xlsx")
-

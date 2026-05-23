@@ -28,3 +28,17 @@ for row in range(2 , sheet.max_row + 1) :
    amount = sheet.cell(row, 4).value
    
    print(date, item, category, amount)
+
+#pie chart
+PieChart → creates the pie chart
+Reference → selects Excel cells for chart data
+#shows the percentage
+bar.dataLabels = DataLabelList()
+bar.dataLabels.showPercent = True
+bar.dataLabels.showCatName = True
+#shows the percentage
+pie.dataLabels = DataLabelList()
+pie.dataLabels.showPercent = True
+pie.dataLabels.showCatName = True
+
+pie.legend = None
